@@ -1,0 +1,8 @@
+# Python and editor
+__pycache__/
+*.py[cod]
+.vscode/
+
+# Numba cache
+*.nbi
+*.nbc
