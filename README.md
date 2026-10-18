@@ -172,3 +172,9 @@ of the beginning of the step, as in the first scripts.
   `dy` is halved, to keep sigma <= 0.5.
 * The scenario without viscous heating uses 1200 °C at the surface for every
   fluid, including water and ammonia.
+
+## Contributors
+
+* **Ferran Alegre Baltasar** - [@ferran-alegre](https://github.com/ferran-alegre)
+* **Àlex Coromina Sayós** - [@alexcorominasayos](https://github.com/alexcorominasayos)
+* **Jordán Frank Soto Huarcaya** - [@jordanfranksoto-netizen](https://github.com/jordanfranksoto-netizen)
