@@ -63,8 +63,8 @@ Water and lava also ask: `Show the special case ... instead of the normal one? (
 |---|---|---|
 | water | 600 s | 600 s |
 | oil | 300 s | 100000 s |
-| glycerin | 600 s | 100000 s |
-| ammonia | 600 s | 100000 s |
+| glycerin | 40 s | 100000 s |
+| ammonia | 600 s | 100 s |
 | lava | 10 s | 200000 s |
 
 These times are in `VELOCITY_TIME` and `TEMPERATURE_TIME` in `config.py`.
@@ -74,7 +74,8 @@ These times are in `VELOCITY_TIME` and `TEMPERATURE_TIME` in `config.py`.
 | Fluid | Depth |
 |---|---|
 | water | 0.01 m |
-| oil, glycerin, ammonia | 0.1 m |
+| oil, glycerin | 0.1 m |
+| ammonia | 0.005 m |
 | lava | 0.3 m |
 
 The depths are in `DEPTH` in `config.py`. The depth must be a whole number of
@@ -84,8 +85,8 @@ cells (`depth / dy` must be an integer); the program checks it.
 
 | Fluid | Angle |
 |---|---|
-| water | 0.01° |
-| oil, glycerin, ammonia | 0.1° |
+| water, ammonia | 0.01° |
+| oil, glycerin | 0.1° |
 | lava | 5° |
 
 The angles are in `INCLINATION_DEGREES` in `config.py`. Each case carries its own
@@ -144,27 +145,11 @@ describe the same instant. For this the temperature dt must be a whole multiple 
 the velocity dt, and the program checks it. The temperature step uses the velocity
 of the beginning of the step, as in the first scripts.
 
-## Differences from the first scripts
-
-| Topic | Before | Now |
-|---|---|---|
-| Quantity | Asked every time | Both are calculated and plotted |
-| Inclination angle | 5° for every fluid | Depends on the fluid |
-| Console output | A few lines of text | Sections, a stability table and the results compared with the analytical value |
-| Time loop | 3000 or 5000 full sweeps over the matrix | One pass in time. Same result when the sweeps were enough, exact when they were not (lava velocity: 0.9289 → 0.9667 m/s) |
-| Number of cells | `int(depth/dy)`: glycerin got 5 cells instead of 6 | Rounded and checked |
-| Stability | Printed but ignored | The program stops if the scheme is unstable |
-| Memory | The whole matrix was stored | About 1000 time steps are stored (plus the last one) |
-| Analytical temperature | Printed in both scenarios | Only with viscous heating, because the formula includes it |
-
 ## Things to keep in mind
 
 * Lava with viscous heating needs 2·10⁸ velocity steps for 200000 s (2000
   temperature steps of 100 s, with 100000 velocity steps each). With compiled
   code it should take several seconds. The program warns above 5·10⁷ steps.
-* With these depths and angles water (Re about 847), oil (599), glycerin (6.1) and
-  lava (7.8) are laminar, but ammonia (6.5·10⁷) is turbulent, so the laminar
-  analytical solution does not really apply to it.
 * The free surface condition copies the neighbour node, which is only first-order
   accurate. The steady velocity at the surface is lower than the analytical one
   by about 1 / (number of cells): 10 % with 10 cells, 2 % with 50 cells. A
